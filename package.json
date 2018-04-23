@@ -1,0 +1,26 @@
+{
+   "name": "find-images.js",
+   "main": "find-images.js",
+   "version": "1.0.1",
+   "author": {
+      "url": "https://github.com/tpkn/"
+   },
+   "dependencies": {
+      "readdirrec": "latest",
+      "image-size": "latest"
+   },
+   "repository": "https://github.com/tpkn/find-images",
+   "license": "MIT",
+   "keywords": [
+      "find",
+      "dir",
+      "folder",
+      "width",
+      "height",
+      "size",
+      "failover",
+      "image",
+      "fs",
+      "readdir"
+   ]
+}
