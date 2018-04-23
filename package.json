@@ -19,6 +19,7 @@
       "height",
       "size",
       "failover",
+      "readdirrec",
       "image",
       "fs",
       "readdir"
