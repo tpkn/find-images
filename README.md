@@ -25,7 +25,7 @@ Filter images by size (in KB)
 
 ## Usage
 ```javascript
-const findImages = require('find-image');
+const findImages = require('find-images');
 
 findImages(input, '100%x250', 500).then(results => {
 	console.log(results);
