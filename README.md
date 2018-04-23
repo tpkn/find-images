@@ -28,9 +28,9 @@ Filter images by size (in KB)
 const findImages = require('find-images');
 
 findImages(input, '100%x250', 500).then(results => {
-	console.log(results);
+   console.log(results);
 }, err => {
-	console.log(err);
+   console.log(err);
 })
 ```
 
@@ -43,8 +43,8 @@ let images_list = findImages.sync(input, '100%x250', 500);
 ## Output format
 ```
 [{
-	path: 'E:/find-images/test/970x250.jpg',
-	resolution: '970x250',
-	size: '70.08' 
+   path: 'E:/find-images/test/970x250.jpg',
+   resolution: '970x250',
+   size: '70.08' 
 }]
 ```
