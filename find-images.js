@@ -1,5 +1,5 @@
 /*!
- * findImages (v1.0.1.20180423), http://tpkn.me/
+ * findImages, http://tpkn.me/
  */
 
 const fs = require('fs');
