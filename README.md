@@ -1,5 +1,12 @@
-# findImages   
+# Find Images   
 Searching for images by resolution and size for Node.js
+
+
+
+## Installation
+```bash
+npm install find-images
+```
 
 
 ## API
@@ -34,7 +41,7 @@ findImages(input, '100%x250', 500).then(results => {
 })
 ```
 
-Sync version also available
+'Sync' version also available
 ```javascript
 let images_list = findImages.sync(input, '100%x250', 500);
 ```
