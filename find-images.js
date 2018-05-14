@@ -1,5 +1,5 @@
 /*!
- * findImages, http://tpkn.me/
+ * Find Images, http://tpkn.me/
  */
 
 const fs = require('fs');
@@ -60,23 +60,25 @@ function findImages(input, resolution, size_limit = 200) {
 
    for(let i = 0, len = input.length; i < len; i++){
       let file = input[i];
+      
+      try {
+         let res = imageSize(file);
+         let img_width = res.width;
+         let img_height = res.height;
+         let img_size = (fs.statSync(file).size / 1024).toFixed(2);
 
-      let res = imageSize(file);
-      let img_width = res.width;
-      let img_height = res.height;
-      let img_size = (fs.statSync(file).size / 1024).toFixed(2);
+         if(!skip_size && img_size > size_limit){
+            continue;
+         }
+         if(!skip_width && target_width != img_width){
+            continue;
+         }
+         if(!skip_height && target_height != img_height){
+            continue;
+         }
 
-      if(!skip_size && img_size > size_limit){
-         continue;
-      }
-      if(!skip_width && target_width != img_width){
-         continue;
-      }
-      if(!skip_height && target_height != img_height){
-         continue;
-      }
-
-      results.push({ path: file, resolution: img_width + 'x' + img_height, size: img_size });
+         results.push({ path: file, resolution: img_width + 'x' + img_height, size: img_size });
+      }catch(err){}
    }
 
    return Promise.resolve(results);
@@ -100,22 +102,24 @@ function findImagesSync(input, resolution, size_limit = 200) {
    for(let i = 0, len = input.length; i < len; i++){
       let file = input[i];
 
-      let res = imageSize(file);
-      let img_width = res.width;
-      let img_height = res.height;
-      let img_size = (fs.statSync(file).size / 1024).toFixed(2);
+      try {
+         let res = imageSize(file);
+         let img_width = res.width;
+         let img_height = res.height;
+         let img_size = (fs.statSync(file).size / 1024).toFixed(2);
 
-      if(!skip_size && img_size > size_limit){
-         continue;
-      }
-      if(!skip_width && target_width != img_width){
-         continue;
-      }
-      if(!skip_height && target_height != img_height){
-         continue;
-      }
+         if(!skip_size && img_size > size_limit){
+            continue;
+         }
+         if(!skip_width && target_width != img_width){
+            continue;
+         }
+         if(!skip_height && target_height != img_height){
+            continue;
+         }
 
-      results.push({ path: file, resolution: img_width + 'x' + img_height, size: img_size });
+         results.push({ path: file, resolution: img_width + 'x' + img_height, size: img_size });
+      }catch(err){}
    }
 
    return results;

@@ -55,3 +55,10 @@ let images_list = findImages.sync(input, '100%x250', 500);
    size: '70.08' 
 }]
 ```
+
+
+
+
+## Changelog 
+#### v1.0.5 (2018-05-14):
+- fixed crash because of `unsupported file type` error
