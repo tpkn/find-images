@@ -21,7 +21,7 @@ Could be a path to images folder or an array of images
 ### resolution
 Type: _String_  
 Default: `100%x100%`   
-Searching for images with this resolution. To ignore width or height, just set it's value as a percentage: `100%x250`
+Searching for images with this resolution. To ignore width or height, just set it's value as a percentage: `100%x250`. To skip this filter option leave it empty `''` or set it to `null`.
 
 
 ### size_limit
