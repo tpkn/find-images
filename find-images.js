@@ -37,58 +37,71 @@ function getTargetRes(resolution){
 
 function getIgnoredOptions(w, h, size){
    let skip_size = typeof size !== 'number' ? true : false;
-   // Ignore width/height if it's responsive (=100%)
    let skip_width = w.indexOf('%') != -1 ? true : false;
    let skip_height = h.indexOf('%') != -1 ? true : false;
 
    return { skip_size, skip_width, skip_height };
 }
 
-function findImages(input, resolution, size_limit = 200) {
-   let results = [];
+function findImages(input, resolution, size_limit) {
+   return new Promise((resolve, reject) => {
+      let results = [];
 
-   input = formatInput(input);
-   let { target_width, target_height } = getTargetRes(resolution);
-   let { skip_size, skip_width, skip_height } = getIgnoredOptions(target_width, target_height, size_limit)
+      input = formatInput(input);
 
-   if(!/^\d+\%?$/i.test(target_width)){
-      return Promise.reject('Wrong width => ' + target_width);
-   }
-   if(!/^\d+\%?$/i.test(target_height)){
-      return Promise.reject('Wrong height => ' + target_height);
-   }
+      if(typeof resolution === null || typeof resolution !== 'string' || resolution.indexOf('x') == -1){
+         resolution = '100%x100%';
+      }
 
-   for(let i = 0, len = input.length; i < len; i++){
-      let file = input[i];
-      
-      try {
-         let res = imageSize(file);
-         let img_width = res.width;
-         let img_height = res.height;
-         let img_size = (fs.statSync(file).size / 1024).toFixed(2);
+      let { target_width, target_height } = getTargetRes(resolution);
+      let { skip_size, skip_width, skip_height } = getIgnoredOptions(target_width, target_height, size_limit)
 
-         if(!skip_size && img_size > size_limit){
-            continue;
-         }
-         if(!skip_width && target_width != img_width){
-            continue;
-         }
-         if(!skip_height && target_height != img_height){
-            continue;
-         }
+      if(!/^\d+\%?$/i.test(target_width)){
+         return reject('Wrong width => ' + target_width);
+      }
+      if(!/^\d+\%?$/i.test(target_height)){
+         return reject('Wrong height => ' + target_height);
+      }
 
-         results.push({ path: file, resolution: img_width + 'x' + img_height, size: img_size });
-      }catch(err){}
-   }
+      for(let i = 0, len = input.length; i < len; i++){
+         let file = input[i];
+         
+         try {
+            
+            let res = imageSize(file);
+            let img_width = res.width;
+            let img_height = res.height;
+            let img_size = (fs.statSync(file).size / 1024).toFixed(2);
 
-   return Promise.resolve(results);
+            if(!skip_size && img_size > size_limit){
+               continue;
+            }
+            if(!skip_width && target_width != img_width){
+               continue;
+            }
+            if(!skip_height && target_height != img_height){
+               continue;
+            }
+
+            results.push({ path: file, resolution: img_width + 'x' + img_height, size: img_size });
+         
+         }catch(err){}
+      }
+
+      resolve(results);
+
+   });
 }
 
-
-function findImagesSync(input, resolution, size_limit = 200) {
+function findImagesSync(input, resolution, size_limit) {
    let results = [];
-   
+
    input = formatInput(input);
+
+   if(typeof resolution === null || typeof resolution !== 'string' || resolution.indexOf('x') == -1){
+      resolution = '100%x100%';
+   }
+      
    let { target_width, target_height } = getTargetRes(resolution);
    let { skip_size, skip_width, skip_height } = getIgnoredOptions(target_width, target_height, size_limit)
 
@@ -103,6 +116,7 @@ function findImagesSync(input, resolution, size_limit = 200) {
       let file = input[i];
 
       try {
+         
          let res = imageSize(file);
          let img_width = res.width;
          let img_height = res.height;
@@ -119,6 +133,7 @@ function findImagesSync(input, resolution, size_limit = 200) {
          }
 
          results.push({ path: file, resolution: img_width + 'x' + img_height, size: img_size });
+
       }catch(err){}
    }
 
