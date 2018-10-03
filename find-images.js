@@ -28,11 +28,17 @@ function formatInput(list){
 }
 
 function getTargetRes(resolution){
-   resolution = String(resolution).split('x');
-   let target_width = resolution[0];
-   let target_height = resolution[1];
-
-   return { target_width, target_height };
+   let target_width = 0;
+   let target_height = 0;
+   try {
+      resolution = String(resolution).split('x');
+      target_width = resolution[0].replace(/\s+/, '');
+      target_height = resolution[1].replace(/\s+/, '');
+   }catch(err){
+      console.log(err);
+   }finally{
+      return { target_width, target_height };
+   }
 }
 
 function getIgnoredOptions(w, h, size){

@@ -60,5 +60,8 @@ let images_list = findImages.sync(input, '100%x250', 500);
 
 
 ## Changelog 
+#### v1.0.8 (2018-10-03):
+- fixed bug, when size string was extracting with space
+
 #### v1.0.5 (2018-05-14):
 - fixed crash due to an `unsupported file type` error
