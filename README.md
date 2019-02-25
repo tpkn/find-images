@@ -1,7 +1,7 @@
 # Find Images   
 Searching for images by resolution and size for Node.js
 
-
+It's synchronous flexible module for relatively small tasks.
 
 ## Installation
 ```bash
@@ -11,7 +11,9 @@ npm install find-images
 
 ## API
 
-### findImages(input[, resolution, size_limit])
+```javascript
+FindImages(input[, resolution, size_limit])
+```
 
 ### input
 **Type**: _String_ | _Array_  
@@ -32,34 +34,32 @@ Filter results by size (in KB)
 
 ## Usage
 ```javascript
-const findImages = require('find-images');
+const FindImages = require('find-images');
 
-findImages(input, '100%x250', 500).then(results => {
-   console.log(results);
-}, err => {
-   console.log(err);
-})
-```
-
-Sync version also available
-```javascript
-let images_list = findImages.sync(input, '100%x250', 500);
+let results = FindImages(input, '540x100%', 500);
+// => [{ path: '/test/540x180.jpg', resolution: '540x180', size: '70.08' }]
 ```
 
 
 ## Output format
 ```
-[{
-   path: 'E:/find-images/test/970x250.jpg',
-   resolution: '970x250',
-   size: '70.08' 
-}]
+[
+   {
+      path: '/test/540x180.jpg',
+      resolution: '540x180',
+      size: '70.08' 
+   },
+]
 ```
 
 
 
 
 ## Changelog 
+#### v2.0.0 (2019-02-16):
+- updated for new version of `ReadDirRec`
+- removed async method
+
 #### v1.0.8 (2018-10-03):
 - fixed bug, when size string was extracted with space
 

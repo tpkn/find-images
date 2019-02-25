@@ -1,10 +1,9 @@
 /*!
  * Find Images, http://tpkn.me/
  */
-
 const fs = require('fs');
-const imageSize = require('image-size');
-const readdirRec = require('readdirrec');
+const ImageSize = require('image-size');
+const ReadDirRec = require('readdirrec');
 
 /**
  * Make sure we have nice and smooth list of images
@@ -19,7 +18,7 @@ function formatInput(list){
       // Filter out nonexistent images and non-images
       list = list.filter(item => images_rule.test(item) && fs.existsSync(item));
    }else if(fs.existsSync(list)){
-      list = readdirRec(list, { filter: item => images_rule.test(item) });
+      list = ReadDirRec.sync(list, { filter: item => images_rule.test(item) });
    }else{
       list = [];
    }
@@ -49,57 +48,7 @@ function getIgnoredOptions(w, h, size){
    return { skip_size, skip_width, skip_height };
 }
 
-function findImages(input, resolution, size_limit) {
-   return new Promise((resolve, reject) => {
-      let results = [];
-
-      input = formatInput(input);
-
-      if(typeof resolution === null || typeof resolution !== 'string' || resolution.indexOf('x') == -1){
-         resolution = '100%x100%';
-      }
-
-      let { target_width, target_height } = getTargetRes(resolution);
-      let { skip_size, skip_width, skip_height } = getIgnoredOptions(target_width, target_height, size_limit)
-
-      if(!/^\d+\%?$/i.test(target_width)){
-         return reject('Wrong width => ' + target_width);
-      }
-      if(!/^\d+\%?$/i.test(target_height)){
-         return reject('Wrong height => ' + target_height);
-      }
-
-      for(let i = 0, len = input.length; i < len; i++){
-         let file = input[i];
-         
-         try {
-            
-            let res = imageSize(file);
-            let img_width = res.width;
-            let img_height = res.height;
-            let img_size = (fs.statSync(file).size / 1024).toFixed(2);
-
-            if(!skip_size && img_size > size_limit){
-               continue;
-            }
-            if(!skip_width && target_width != img_width){
-               continue;
-            }
-            if(!skip_height && target_height != img_height){
-               continue;
-            }
-
-            results.push({ path: file, resolution: img_width + 'x' + img_height, size: img_size });
-         
-         }catch(err){}
-      }
-
-      resolve(results);
-
-   });
-}
-
-function findImagesSync(input, resolution, size_limit) {
+function FindImages(input, resolution, size_limit) {
    let results = [];
 
    input = formatInput(input);
@@ -123,7 +72,7 @@ function findImagesSync(input, resolution, size_limit) {
 
       try {
          
-         let res = imageSize(file);
+         let res = ImageSize(file);
          let img_width = res.width;
          let img_height = res.height;
          let img_size = (fs.statSync(file).size / 1024).toFixed(2);
@@ -146,5 +95,4 @@ function findImagesSync(input, resolution, size_limit) {
    return results;
 }
 
-module.exports = findImages;
-module.exports.sync = findImagesSync;
+module.exports = FindImages;
