@@ -1,4 +1,4 @@
-# Find Images   
+# Find Images [![npm Package](https://img.shields.io/npm/v/find-images.svg)](https://www.npmjs.org/package/find-images)
 Searching for images by resolution and size for Node.js
 
 It's synchronous flexible module for relatively small tasks.
